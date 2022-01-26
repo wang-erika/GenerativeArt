@@ -1,0 +1,41 @@
+OpenSimplexNoise noise;
+
+void setup(){
+  size(500, 500);
+  background(256, 256, 256);
+  stroke(255);
+  noFill();
+  frameRate(11);
+  
+  noise = new OpenSimplexNoise();
+}
+
+int numFrames = 50;
+float radius = 4.0;
+
+void draw(){
+  float t = 0.2*frameCount/numFrames;
+  
+  background(180,230,256);
+  float scale = 0.5;
+  
+  beginShape();
+  for(int x = 0; x<width; x++){
+    float ns = (float)noise.eval(scale*x, 2*radius*cos(TWO_PI*t), radius*sin(TWO_PI*t));
+    float y = map(ns, 0.2, -0.2, 0.2, height);
+    fill(255, random(150,256), random(150,256));
+    ellipse(x, y, random(50), random(50));
+  }
+  endShape();
+  
+  println(t);
+  
+  if(frameCount<=numFrames){
+    saveFrame("happy_petal2###.jpg");
+  }
+  
+  if(frameCount == numFrames){
+    println("finished");
+    stop();
+  }
+}
